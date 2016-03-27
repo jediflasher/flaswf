@@ -1,1 +1,2 @@
-# Simple framework to use .fla animations and GUI with Starling and Feathers.
+> FLASWF: Simple framework to use .fla animations and GUI with Starling and Feathers.
+
