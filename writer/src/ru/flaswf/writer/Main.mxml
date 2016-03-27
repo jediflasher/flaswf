@@ -1,0 +1,231 @@
+<?xml version="1.0"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx" width="800" height="500">
+
+    <s:layout>
+        <s:VerticalLayout/>
+    </s:layout>
+
+    <s:Form width="100%">
+        <s:FormItem label="Swf folder:">
+            <s:TextInput id="swfFolderTextInput" width="100%" text="{getInputPath()}"/>
+            <s:HGroup>
+                <s:Button label="Browse folder" click="onBrowseFolderClick(event)"/>
+                <s:Button label="Browse file" click="onBrowseFileClick(event)"/>
+            </s:HGroup>
+        </s:FormItem>
+
+        <s:Button label="Set same output" click="onSetSameOutput(event)">
+        </s:Button>
+
+        <s:FormItem label="Out folder:">
+            <s:TextInput id="outFolderTextInput" width="100%" text="{getOutputPath()}"/>
+            <s:Button label="Browse" click="onBrowseOutput(event)"/>
+        </s:FormItem>
+
+        <s:FormItem label="Recursive:">
+            <s:CheckBox id="recursiveCheckBox" selected="false"/>
+        </s:FormItem>
+
+        <s:FormItem label="Skip existing files:">
+            <s:CheckBox id="skipExistingFilesCheckBox" selected="false"/>
+        </s:FormItem>
+
+        <s:FormItem label="Scale:">
+            <s:TextInput id="scaleTextInput" text="1"/>
+        </s:FormItem>
+
+        <s:FormItem label="OverSize:">
+            <s:TextInput id="overSizeTextInput" text="1.3"/>
+        </s:FormItem>
+
+        <s:FormItem label="Draw glows:">
+            <s:HGroup>
+                <s:CheckBox id="drawGlows" selected="true"/>
+            </s:HGroup>
+        </s:FormItem>
+
+
+        <s:Button id="okButton" label="OK" click="onClick(event)"/>
+    </s:Form>
+
+    <mx:Box paddingLeft="10">
+        <mx:ProgressBar id="progressBar"
+                        mode="manual"
+                        includeInLayout="false"
+                        visible="false"/>
+    </mx:Box>
+
+    <fx:Script><![CDATA[
+        import spark.components.Alert;
+
+        private var scale:Number = 1;
+        private var overSize:Number = 1.3;
+
+        private var swfFiles:Vector.<File>;
+        private var loadFileIndex:int;
+        private var loader:Loader;
+        private var progress:int;
+        private var recursiveLevel:int;
+
+        private function getInputPath():String {
+            var so:SharedObject = SharedObject.getLocal('swf_rasterizer_animation');
+            return so.data['inputPath'] || ''
+        }
+
+        private function getOutputPath():String {
+            var so:SharedObject = SharedObject.getLocal('swf_rasterizer_animation');
+            return so.data['outputPath'] || '';
+        }
+
+        /**
+         * @private
+         */
+        private function onBrowseFolderClick(event:MouseEvent):void {
+            try {
+                var folder:File = swfFolderTextInput.text ? new File(swfFolderTextInput.text) : File.applicationDirectory;
+                if (!folder.exists) folder = File.applicationDirectory;
+
+                folder.browseForDirectory("Select folder with swfs");
+                folder.addEventListener(Event.SELECT, function (event:Event):void {
+                    swfFolderTextInput.text = (event.target as File).nativePath;
+                });
+            } catch (error:Error) {
+                trace("Failed:", error.message);
+                Alert.show(error.message + '\n' + error.getStackTrace(), error.name);
+            }
+        }
+
+        private function onBrowseFileClick(event:MouseEvent):void {
+            try {
+                var file:File = swfFolderTextInput.text ? new File(swfFolderTextInput.text) : File.applicationDirectory;
+                if (!file.exists) file = File.applicationDirectory;
+
+                file.browseForOpen("Select swf", [new FileFilter("Swfs", "*.swf")]);
+                file.addEventListener(Event.SELECT, function (event:Event):void {
+                    swfFolderTextInput.text = (event.target as File).nativePath;
+                });
+            } catch (error:Error) {
+                trace("Failed:", error.message);
+                Alert.show(error.message + '\n' + error.getStackTrace(), error.name);
+            }
+        }
+
+        private function onBrowseOutput(event:MouseEvent):void {
+            try {
+                var folder:File = new File(outFolderTextInput.text);
+                if (!folder.exists) folder = File.applicationDirectory;
+
+                folder.browseForDirectory("Select output folder");
+                folder.addEventListener(Event.SELECT, function (event:Event):void {
+                    outFolderTextInput.text = (event.target as File).nativePath;
+                });
+            } catch (error:Error) {
+                trace("Failed:", error.message);
+                Alert.show(error.message + '\n' + error.getStackTrace(), error.name);
+            }
+        }
+
+        private function onSetSameOutput(event:MouseEvent):void {
+            outFolderTextInput.text = swfFolderTextInput.text;
+        }
+
+        private function onClick(event:MouseEvent):void {
+            scale = parseFloat(scaleTextInput.text);
+            overSize = parseFloat(overSizeTextInput.text);
+
+            var swfFolder:File = new File(swfFolderTextInput.text);
+
+            swfFiles = new <File>[];
+            scanFolder(swfFolder, swfFiles, swfFolder.nativePath, outFolderTextInput.text);
+
+            trace("swf count: " + swfFiles.length);
+
+            loadFileIndex = 0;
+            progressBar.includeInLayout = progressBar.visible = true;
+            okButton.includeInLayout = okButton.visible = false;
+
+            loadNext();
+
+            var so:SharedObject = SharedObject.getLocal('swf_rasterizer_animation');
+            so.data['inputPath'] = swfFolderTextInput.text;
+            so.data['outputPath'] = outFolderTextInput.text;
+            so.flush();
+        }
+
+        private function scanFolder(folder:File, swfFiles:Vector.<File>, baseInputPath:String, baseOutputPath:String = null):void {
+            if (!folder.isDirectory) {
+                scanFile(folder, swfFiles, baseInputPath, baseOutputPath);
+            } else {
+                var directoryListing:Array = folder.getDirectoryListing();
+                for each(var file:File in directoryListing) {
+                    if (file.isDirectory) {
+                        scanFolder(file, swfFiles, baseInputPath, baseOutputPath);
+                    } else {
+                        scanFile(file, swfFiles, baseInputPath, baseOutputPath);
+                    }
+                }
+            }
+        }
+
+        private function scanFile(file:File, swfFiles:Vector.<File>, baseInputPath:String, baseOutputPath:String = null):void {
+            if (file.extension == "swf") {
+                var targetPath:String = file.parent.nativePath.replace(baseInputPath, baseOutputPath);
+                var targetDirectory:File = file.resolvePath(targetPath);
+                if (!targetDirectory.exists) targetDirectory.createDirectory();
+
+                swfFiles.push(file);
+            }
+        }
+
+        private function loadNext():void {
+            var file:File = swfFiles[loadFileIndex];
+
+            var targetPath:String = file.parent.nativePath.replace(swfFolderTextInput.text, outFolderTextInput.text);
+            var targetFileName:String = targetPath + "/" + file.name.substr(0, file.name.length - 4) + ".animation";
+            var targetFile:File = new File(targetFileName);
+
+            if (skipExistingFilesCheckBox.selected && targetFile.exists) {
+                trace('================= Skip existing file ' + targetFileName + ' ====================');
+                finishFile();
+            } else {
+                var fs:FileStream = new FileStream();
+                fs.open(file, FileMode.READ);
+                var bytes:ByteArray = new ByteArray();
+                fs.readBytes(bytes);
+
+                loader = new Loader();
+                loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onComplete);
+                var lc:LoaderContext = new LoaderContext(false);
+                lc.allowCodeImport = true;
+                lc.allowLoadBytesCodeExecution = true;
+                loader.loadBytes(bytes, lc);
+            }
+        }
+
+        private function onComplete(event:Event):void {
+            loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, onComplete);
+
+            var file:File = swfFiles[loadFileIndex];
+            var fileName:String = file.name;
+            fileName = fileName.substring(0, fileName.length - 4);
+
+            var targetPath:String = file.parent.nativePath.replace(swfFolderTextInput.text, outFolderTextInput.text);
+            SWFWriter.processSwf(loader, fileName, targetPath);
+
+            loader.unloadAndStop();
+            finishFile();
+        }
+
+        private function finishFile():void {
+            loadFileIndex++;
+            if (loadFileIndex == swfFiles.length) {
+                progressBar.includeInLayout = progressBar.visible = false;
+                okButton.includeInLayout = okButton.visible = true;
+            } else {
+                progressBar.setProgress(loadFileIndex, swfFiles.length);
+                loadNext();
+            }
+        }
+        ]]></fx:Script>
+</s:Application>
