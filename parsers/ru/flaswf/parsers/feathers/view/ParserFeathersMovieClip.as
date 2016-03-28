@@ -5,12 +5,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 package ru.flaswf.parsers.feathers.view {
 	
-	import descriptors.AnimationDescriptor;
-
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 
 	import ru.flaswf.parsers.feathers.ObjectBuilder;
+	import ru.flaswf.reader.descriptors.AnimationDescriptor;
 	import ru.flaswf.reader.descriptors.DisplayObjectDescriptor;
 	import ru.flaswf.reader.descriptors.FrameDescriptor;
 	import ru.flaswf.reader.descriptors.TextFieldDescriptor;
@@ -328,7 +327,7 @@ package ru.flaswf.parsers.feathers.view {
 	}
 }
 
-import descriptors.AnimationDescriptor;
+import ru.flaswf.reader.descriptors.AnimationDescriptor;
 
 class Animation {
 	public var onComplete:Function;
