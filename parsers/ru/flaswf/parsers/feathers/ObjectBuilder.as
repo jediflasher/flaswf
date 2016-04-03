@@ -8,6 +8,7 @@ package ru.flaswf.parsers.feathers {
 	import ru.flaswf.parsers.feathers.view.ParserFeathersScale9Image;
 	import ru.flaswf.parsers.feathers.view.ParserFeathersTextField;
 	import ru.flaswf.parsers.feathers.view.ParserFeathersTextInput;
+	import ru.flaswf.parsers.feathers.view.ParserFeathersTiledImage;
 	import ru.flaswf.reader.descriptors.DisplayObjectDescriptor;
 	import ru.flaswf.reader.descriptors.TextFieldDescriptor;
 
@@ -76,7 +77,8 @@ package ru.flaswf.parsers.feathers {
 					} else {
 						result = new ParserFeathersImage(descriptor);
 					}
-
+				} else if (isTiledImage(linkage)) {
+					result = new ParserFeathersTiledImage(descriptor);
 				} else if (isButton(linkage)) {
 					result = new buttonRenderer(descriptor);
 				} else if (isHint(linkage)) {
@@ -98,15 +100,15 @@ package ru.flaswf.parsers.feathers {
 		}
 
 		public static function normalize(name:String):String {
-			return name.replace(/tx_|anim_/g, '');
+			return name.replace(/tx_|anim_|tl_/g, '');
 		}
 
 		public static function isButton(name:String):Boolean {
 			return name.indexOf('button_') == 0;
 		}
 
-		public static function isSlider(name:String):Boolean {
-			return name.indexOf('slider_') == 0;
+		public static function isTiledImage(name:String):Boolean {
+			return name.indexOf('tl_') == 0;
 		}
 
 		public static function isHint(name:String):Boolean {
