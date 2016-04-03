@@ -1,8 +1,8 @@
 package ru.flaswf.reader.descriptors {
-
+	
 	import flash.geom.Rectangle;
 	import flash.utils.ByteArray;
-
+	
 	/**
 	 * @author                Obi
 	 * @version                1.0

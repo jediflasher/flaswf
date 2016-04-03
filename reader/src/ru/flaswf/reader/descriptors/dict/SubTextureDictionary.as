@@ -1,7 +1,7 @@
 package ru.flaswf.reader.descriptors.dict {
-
+	
 	import flash.utils.ByteArray;
-
+	
 	/**
 	 * @author                Obi
 	 * @version                1.0

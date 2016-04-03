@@ -1,12 +1,12 @@
 package ru.flaswf.parsers.feathers.view {
-
+	
 	import feathers.display.TiledImage;
-
+	
 	import ru.flaswf.parsers.feathers.ObjectBuilder;
 	import ru.flaswf.reader.descriptors.DisplayObjectDescriptor;
-
+	
 	import starling.textures.Texture;
-
+	
 	/**
 	 * @author              Roman
 	 * @version             1.0

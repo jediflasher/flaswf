@@ -4,19 +4,18 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 package ru.flaswf.parsers.feathers.view {
-
-	import descriptors.BitmapFilterDescriptor;
-
+	
 	import feathers.controls.text.TextFieldTextRenderer;
-
+	
 	import flash.filters.BitmapFilter;
 	import flash.filters.GlowFilter;
 	import flash.text.TextFormat;
 	import flash.utils.Dictionary;
-
+	
 	import ru.flaswf.parsers.feathers.ObjectBuilder;
+	import ru.flaswf.reader.descriptors.BitmapFilterDescriptor;
 	import ru.flaswf.reader.descriptors.TextFieldDescriptor;
-
+	
 	/**
 	 * @author                    Obi
 	 * @langversion                3.0

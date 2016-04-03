@@ -1,10 +1,10 @@
 package ru.flaswf.reader.descriptors {
-
+	
 	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
-
+	
 	import ru.flaswf.reader.descriptors.dict.AtlasDictionary;
-
+	
 	/**
 	 * @author                Obi
 	 * @version                1.0

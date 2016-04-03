@@ -1,8 +1,8 @@
 package ru.flaswf.reader.utils {
-
+	
 	import flash.geom.Matrix;
 	import flash.utils.ByteArray;
-
+	
 	public class MatrixPacker {
 
 		public static var count:int = 0;

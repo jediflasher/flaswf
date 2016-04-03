@@ -1,5 +1,5 @@
 package ru.flaswf.parsers.feathers {
-
+	
 	import ru.flaswf.parsers.feathers.view.ParserFeathersButton;
 	import ru.flaswf.parsers.feathers.view.ParserFeathersDummy;
 	import ru.flaswf.parsers.feathers.view.ParserFeathersHint;
@@ -12,7 +12,7 @@ package ru.flaswf.parsers.feathers {
 	import ru.flaswf.parsers.feathers.view.ParserFeathersTiledImage;
 	import ru.flaswf.reader.descriptors.DisplayObjectDescriptor;
 	import ru.flaswf.reader.descriptors.TextFieldDescriptor;
-
+	
 	import starling.display.DisplayObject;
 	import starling.textures.Texture;
 	

@@ -1,5 +1,5 @@
 package ru.flaswf.writer {
-
+	
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
@@ -10,14 +10,14 @@ package ru.flaswf.writer {
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getTimer;
-
+	
 	import ru.flaswf.reader.descriptors.AnimationDescriptor;
 	import ru.flaswf.reader.descriptors.BitmapFilterDescriptor;
 	import ru.flaswf.reader.descriptors.DisplayObjectDescriptor;
 	import ru.flaswf.reader.descriptors.FrameDescriptor;
 	import ru.flaswf.reader.descriptors.LinkageDescriptor;
 	import ru.flaswf.reader.descriptors.TextFieldDescriptor;
-
+	
 	public class DisplayRasterizer {
 
 		/**

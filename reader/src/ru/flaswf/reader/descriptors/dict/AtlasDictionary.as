@@ -1,8 +1,8 @@
 package ru.flaswf.reader.descriptors.dict {
-
+	
 	import flash.errors.IllegalOperationError;
 	import flash.utils.ByteArray;
-
+	
 	/**
 	 * @author                Obi
 	 * @version                1.0

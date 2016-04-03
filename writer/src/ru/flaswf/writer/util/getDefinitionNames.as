@@ -9,9 +9,10 @@
  * Please contact etc[at]mail.ru prior to distributing modified versions of this class.
  */
 package ru.flaswf.writer.util {
+	
 	import flash.display.LoaderInfo;
 	import flash.utils.ByteArray;
-
+	
 	/**
 	 * getDefinitionNames function
 	 *
@@ -50,10 +51,9 @@ package ru.flaswf.writer.util {
 	}
 }
 
+import flash.geom.Rectangle;
 import flash.utils.ByteArray;
 import flash.utils.Endian;
-import flash.geom.Rectangle;
-import flash.system.ApplicationDomain;
 
 /**
  * @private

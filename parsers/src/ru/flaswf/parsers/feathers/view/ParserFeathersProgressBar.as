@@ -1,11 +1,11 @@
 package ru.flaswf.parsers.feathers.view {
-
+	
 	import feathers.core.FeathersControl;
-
+	
 	import ru.flaswf.reader.descriptors.DisplayObjectDescriptor;
-
+	
 	import starling.display.DisplayObject;
-
+	
 	/**
 	 * @author              Roman
 	 * @version             1.0

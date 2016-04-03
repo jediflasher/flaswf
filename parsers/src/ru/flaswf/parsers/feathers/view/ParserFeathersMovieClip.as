@@ -7,17 +7,17 @@ package ru.flaswf.parsers.feathers.view {
 	
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
-
+	
 	import ru.flaswf.parsers.feathers.ObjectBuilder;
 	import ru.flaswf.reader.descriptors.AnimationDescriptor;
 	import ru.flaswf.reader.descriptors.DisplayObjectDescriptor;
 	import ru.flaswf.reader.descriptors.FrameDescriptor;
 	import ru.flaswf.reader.descriptors.TextFieldDescriptor;
-
+	
 	import starling.animation.IAnimatable;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
-
+	
 	/**
 	 * @author                    Obi
 	 * @langversion                3.0

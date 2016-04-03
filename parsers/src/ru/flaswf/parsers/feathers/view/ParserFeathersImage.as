@@ -6,12 +6,12 @@
 package ru.flaswf.parsers.feathers.view {
 	
 	import flash.geom.Rectangle;
-
+	
 	import ru.flaswf.parsers.feathers.ObjectBuilder;
 	import ru.flaswf.reader.descriptors.DisplayObjectDescriptor;
-
+	
 	import starling.display.Image;
-
+	
 	/**
 	 * @author                    Obi
 	 * @langversion                3.0

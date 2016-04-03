@@ -1,11 +1,11 @@
 package ru.flaswf.reader.descriptors {
-
+	
 	import flash.filters.BitmapFilter;
 	import flash.filters.BlurFilter;
 	import flash.filters.DropShadowFilter;
 	import flash.filters.GlowFilter;
 	import flash.utils.ByteArray;
-
+	
 	/**
 	 * @author              Roman
 	 * @version             1.0

@@ -3,9 +3,9 @@ package ru.flaswf.reader.descriptors {
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	import flash.utils.ByteArray;
-
+	
 	import ru.flaswf.reader.utils.MatrixPacker;
-
+	
 	/**
 	 * @author                    Obi
 	 * @langversion                3.0

@@ -4,17 +4,17 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 package ru.flaswf.parsers.feathers.view {
-
+	
 	import feathers.core.FeathersControl;
-
+	
 	import flash.geom.Rectangle;
-
+	
 	import ru.flaswf.reader.descriptors.DisplayObjectDescriptor;
-
+	
 	import starling.display.DisplayObject;
 	import starling.display.DisplayObjectContainer;
 	import starling.events.Event;
-
+	
 	/**
 	 * @author                    Obi
 	 * @langversion                3.0

@@ -1,5 +1,5 @@
 package ru.flaswf.writer {
-
+	
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.filesystem.File;
@@ -9,14 +9,14 @@ package ru.flaswf.writer {
 	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
-
+	
 	import ru.flaswf.reader.descriptors.LinkageDescriptor;
 	import ru.flaswf.reader.descriptors.SwfDescriptor;
 	import ru.flaswf.reader.utils.MatrixPacker;
 	import ru.flaswf.writer.util.getDefinitionNames;
-
+	
 	import spark.components.Alert;
-
+	
 	/**
 	 * @author              Roman
 	 * @version             1.0

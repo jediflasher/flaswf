@@ -1,14 +1,14 @@
 package ru.flaswf.parsers.feathers.view {
-
+	
 	import feathers.controls.TextInput;
 	import feathers.controls.text.TextFieldTextRenderer;
 	import feathers.core.ITextRenderer;
-
+	
 	import flash.text.TextFormat;
-
+	
 	import ru.flaswf.parsers.feathers.ObjectBuilder;
 	import ru.flaswf.reader.descriptors.TextFieldDescriptor;
-
+	
 	/**
 	 * @author              Obi
 	 * @version             1.0

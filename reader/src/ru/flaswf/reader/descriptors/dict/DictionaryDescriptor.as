@@ -1,5 +1,5 @@
 package ru.flaswf.reader.descriptors.dict {
-
+	
 	import flash.utils.ByteArray;
 	
 	/**

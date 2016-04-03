@@ -1,5 +1,5 @@
 package ru.flaswf.reader.descriptors {
-
+	
 	import flash.text.TextFormat;
 	import flash.text.TextFormatAlign;
 	import flash.utils.ByteArray;
