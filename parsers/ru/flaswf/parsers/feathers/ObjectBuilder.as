@@ -5,6 +5,7 @@ package ru.flaswf.parsers.feathers {
 	import ru.flaswf.parsers.feathers.view.ParserFeathersHint;
 	import ru.flaswf.parsers.feathers.view.ParserFeathersImage;
 	import ru.flaswf.parsers.feathers.view.ParserFeathersMovieClip;
+	import ru.flaswf.parsers.feathers.view.ParserFeathersProgressBar;
 	import ru.flaswf.parsers.feathers.view.ParserFeathersScale9Image;
 	import ru.flaswf.parsers.feathers.view.ParserFeathersTextField;
 	import ru.flaswf.parsers.feathers.view.ParserFeathersTextInput;
@@ -85,6 +86,8 @@ package ru.flaswf.parsers.feathers {
 					result = new ParserFeathersHint(descriptor);
 				} else if (isDummy(linkage)) {
 					result = new ParserFeathersDummy(descriptor);
+				} else if (isProgressBar(linkage)) {
+					result = new ParserFeathersProgressBar(descriptor);
 				} else {
 					result = new ParserFeathersMovieClip(descriptor);
 				}
@@ -113,6 +116,10 @@ package ru.flaswf.parsers.feathers {
 
 		public static function isHint(name:String):Boolean {
 			return name.indexOf('hint_') == 0;
+		}
+
+		public static function isProgressBar(name:String):Boolean {
+			return name.indexOf('pb_') == 0;
 		}
 
 		public static function isDummy(name:String):Boolean {

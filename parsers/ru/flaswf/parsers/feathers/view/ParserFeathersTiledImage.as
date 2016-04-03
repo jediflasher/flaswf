@@ -22,8 +22,8 @@ package ru.flaswf.parsers.feathers.view {
 		//
 		//--------------------------------------------------------------------------
 		
-		public function ParserFeathersTiledImage(descriptor:DisplayObjectDescriptor) {
-			var texture:Texture = ObjectBuilder.getTexture(ObjectBuilder.normalize(descriptor.name));
+		public function ParserFeathersTiledImage(source:DisplayObjectDescriptor) {
+			var texture:Texture = ObjectBuilder.getTexture(ObjectBuilder.normalize(source.name));
 			super(texture);
 		}
 	}
