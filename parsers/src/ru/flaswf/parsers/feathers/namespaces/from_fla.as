@@ -1,4 +1,4 @@
-package ru.airlib.fla_parser.namespaces {
+package ru.flaswf.parsers.feathers.namespaces {
 	
 	/**
 	 * @author              Roman
