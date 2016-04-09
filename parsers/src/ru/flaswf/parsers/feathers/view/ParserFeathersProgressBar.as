@@ -13,7 +13,7 @@ package ru.flaswf.parsers.feathers.view {
 	 * @langversion         3.0
 	 * @date                03.04.2016 13:19
 	 */
-	public class ParserFeathersProgressBar extends ParserFeathersDisplayObjectContainer {
+	public class ParserFeathersProgressBar extends ParserFeathersMovieClip {
 		
 		//--------------------------------------------------------------------------
 		//
@@ -95,11 +95,11 @@ package ru.flaswf.parsers.feathers.view {
 		//
 		//--------------------------------------------------------------------------
 
-		private var _bg:DisplayObject;
+		public var _bg:DisplayObject;
 
-		private var _bar:DisplayObject;
+		public var _bar:DisplayObject;
 
-		private var _label:ParserFeathersTextField;
+		public var _label:ParserFeathersTextField;
 		
 		//--------------------------------------------------------------------------
 		//

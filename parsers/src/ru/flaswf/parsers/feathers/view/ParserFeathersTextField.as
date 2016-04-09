@@ -72,7 +72,7 @@ package ru.flaswf.parsers.feathers.view {
 			isHTML = true;
 			textFormat = fmt;
 			snapToPixels = true;
-//			useSnapshotDelayWorkaround = true;
+			useSnapshotDelayWorkaround = true;
 
 			super.wordWrap = source.multiline;
 			super.width = ObjectBuilder.t(source.width);

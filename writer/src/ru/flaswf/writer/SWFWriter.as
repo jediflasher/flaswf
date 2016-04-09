@@ -60,7 +60,6 @@ package ru.flaswf.writer {
 						swf.addLinkage(link);
 					}
 
-					trace('processed ' + className);
 				} catch (e:Error) {
 					trace('==============ERROR==============');
 					trace(e.message + '\n' + e.getStackTrace());

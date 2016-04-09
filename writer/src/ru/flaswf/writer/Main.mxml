@@ -181,7 +181,7 @@
         private function loadNext():void {
             var file:File = swfFiles[loadFileIndex];
 
-            var targetPath:String = file.parent.nativePath.replace(swfFolderTextInput.text, outFolderTextInput.text);
+            var targetPath:String = outFolderTextInput.text;
             var targetFileName:String = targetPath + "/" + file.name.substr(0, file.name.length - 4) + ".animation";
             var targetFile:File = new File(targetFileName);
 
@@ -210,7 +210,7 @@
             var fileName:String = file.name;
             fileName = fileName.substring(0, fileName.length - 4);
 
-            var targetPath:String = file.parent.nativePath.replace(swfFolderTextInput.text, outFolderTextInput.text);
+            var targetPath:String = outFolderTextInput.text;
             SWFWriter.processSwf(loader, fileName, targetPath);
 
             loader.unloadAndStop();

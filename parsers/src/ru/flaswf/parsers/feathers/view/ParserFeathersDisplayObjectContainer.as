@@ -6,6 +6,8 @@
 package ru.flaswf.parsers.feathers.view {
 	
 	import feathers.core.FeathersControl;
+
+	import flash.events.IEventDispatcher;
 	
 	import flash.geom.Rectangle;
 	
@@ -113,23 +115,14 @@ package ru.flaswf.parsers.feathers.view {
 		//
 		//--------------------------------------------------------------------------
 
-		/**
-		 * @private
-		 */
 		protected function added():void {
 
 		}
 
-		/**
-		 * @private
-		 */
 		protected function removed():void {
 
 		}
 
-		/**
-		 * @private
-		 */
 		protected function assign(childName:String):void {
 			var variableName:String = '_' + childName;
 
@@ -141,9 +134,6 @@ package ru.flaswf.parsers.feathers.view {
 			}
 		}
 
-		/**
-		 * @private
-		 */
 		protected function autoAssign():void {
 			for (var childName:String in _childrenHash) {
 				var child:DisplayObject = _childrenHash[childName];
@@ -154,9 +144,6 @@ package ru.flaswf.parsers.feathers.view {
 			}
 		}
 
-		/**
-		 * @private
-		 */
 		protected function invalidateData(arg:* = null):void {
 			invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
 		}
@@ -167,17 +154,11 @@ package ru.flaswf.parsers.feathers.view {
 		//
 		//--------------------------------------------------------------------------
 
-		/**
-		 * @private
-		 */
 		protected override function feathersControl_addedToStageHandler(event:Event):void {
 			super.feathersControl_addedToStageHandler(event);
 			added();
 		}
 
-		/**
-		 * @private
-		 */
 		protected override function feathersControl_removedFromStageHandler(event:Event):void {
 			super.feathersControl_removedFromStageHandler(event);
 			removed();
