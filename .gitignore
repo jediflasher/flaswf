@@ -19,3 +19,9 @@ bin-release/
 out
 gen
 # Created by .ignore support plugin (hsz.mobi)
+
+#ignore thumbnails created by windows
+Thumbs.db
+
+#ignore DS_store by mac os
+.DS_Store
