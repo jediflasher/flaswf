@@ -8,15 +8,15 @@ package ru.flaswf.parsers.feathers.view {
 	import feathers.controls.Button;
 	import feathers.controls.ToggleButton;
 	import feathers.core.FeathersControl;
-	
+
 	import flash.geom.Rectangle;
-	
+
 	import ru.flaswf.parsers.feathers.ObjectBuilder;
 	import ru.flaswf.reader.descriptors.AnimationDescriptor;
 	import ru.flaswf.reader.descriptors.DisplayObjectDescriptor;
-	
+
 	import starling.display.DisplayObject;
-	
+
 	/**
 	 * @author                    Obi
 	 * @langversion                3.0

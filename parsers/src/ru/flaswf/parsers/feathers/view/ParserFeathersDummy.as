@@ -1,13 +1,13 @@
 package ru.flaswf.parsers.feathers.view {
 	
 	import flash.geom.Rectangle;
-	
+
 	import ru.flaswf.parsers.feathers.ObjectBuilder;
 	import ru.flaswf.reader.descriptors.DisplayObjectDescriptor;
-	
-	import starling.core.RenderSupport;
+
 	import starling.display.DisplayObject;
-	
+	import starling.rendering.Painter;
+
 	/**
 	 * @author              Roman
 	 * @version             1.0
@@ -35,15 +35,12 @@ package ru.flaswf.parsers.feathers.view {
 			super();
 			touchable = false;
 
-			if (source is DisplayObjectDescriptor) {
-				var dod:DisplayObjectDescriptor = source as DisplayObjectDescriptor;
-				var b:Rectangle = dod.getFrameBounds();
-				x = ObjectBuilder.t(b.x);
-				y = ObjectBuilder.t(b.y);
-				width = ObjectBuilder.t(b.width * dod.transform.a);
-				height = ObjectBuilder.t(b.height * dod.transform.d);
-				name = dod.name;
-			}
+			var b:Rectangle = source.getFrameBounds();
+			x = ObjectBuilder.t(b.x);
+			y = ObjectBuilder.t(b.y);
+			width = ObjectBuilder.t(b.width * source.transform.a);
+			height = ObjectBuilder.t(b.height * source.transform.d);
+			name = source.name;
 		}
 
 		//--------------------------------------------------------------------------
@@ -94,7 +91,7 @@ package ru.flaswf.parsers.feathers.view {
 		//
 		//--------------------------------------------------------------------------
 
-		public override function render(support:RenderSupport, parentAlpha:Number):void {
+		public override function render(painter:Painter):void {
 			// nothing
 		}
 
