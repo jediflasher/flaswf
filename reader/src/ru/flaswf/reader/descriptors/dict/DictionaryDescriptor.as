@@ -73,11 +73,7 @@ package ru.flaswf.reader.descriptors.dict {
 		//  Public methods
 		//
 		//--------------------------------------------------------------------------
-
-		public function getLinkageByName(linkageName:String):LinkageDictionary {
-			return this._hash[linkageName];
-		}
-
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Private methods

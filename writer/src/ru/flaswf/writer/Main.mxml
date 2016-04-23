@@ -39,13 +39,6 @@
             <s:TextInput id="overSizeTextInput" text="1.3"/>
         </s:FormItem>
 
-        <s:FormItem label="Draw glows:">
-            <s:HGroup>
-                <s:CheckBox id="drawGlows" selected="true"/>
-            </s:HGroup>
-        </s:FormItem>
-
-
         <s:Button id="okButton" label="OK" click="onClick(event)"/>
     </s:Form>
 

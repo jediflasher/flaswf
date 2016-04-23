@@ -26,6 +26,7 @@ package ru.flaswf.parsers.feathers.view {
 		//--------------------------------------------------------------------------
 
 		public function ParserFeathersImage(source:DisplayObjectDescriptor, textureName:String = null) {
+
 			super(ObjectBuilder.getTexture(ObjectBuilder.normalize(textureName || source.linkage.name)));
 			this.source = source;
 

@@ -88,7 +88,7 @@ package ru.flaswf.writer {
 
 			setTimeout(function ():void {
 				var t:Number = getTimer();
-				var swf:SwfDescriptor = new SwfDescriptor(result);
+				new SwfDescriptor(result);
 				trace('\n\n');
 				trace('decompressed: ' + (getTimer() - t) + ' ms.');
 			}, 1000);

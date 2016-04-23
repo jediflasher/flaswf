@@ -5,9 +5,7 @@ package ru.flaswf.reader.descriptors {
 
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertTrue;
-
-	import ru.swfReader.descriptors.TextFieldDescriptorTest;
-
+	
 	/**
 	 * @author              Roman
 	 * @version             1.0

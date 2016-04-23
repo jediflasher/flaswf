@@ -23,47 +23,12 @@ package ru.flaswf.writer {
 		/**
 		 * @private
 		 */
-		private static const DEBUG:Boolean = false;
-
-		/**
-		 * @private
-		 */
-		private static const ADD_CLASS_NAME_TO_PART:Boolean = false;
-
-		/**
-		 * @private
-		 */
-		private static const HELPER_MATRIX:Matrix = new Matrix();
-
-		/**
-		 * @private
-		 */
-		private static const MASK_PREFIX:String = 'mask_';
-
-		/**
-		 * @private
-		 */
-		private static const MASKED_SUFFIX:String = '_mask';
-
-		/**
-		 * @private
-		 */
 		public static const CONSTRUCTOR:String = 'constructor';
 
 		/**
 		 * @private
 		 */
 		public static const CUSTOM_LINK:String = 'linkage#';
-
-		/**
-		 * @private
-		 */
-		private static const GLOW_COLORS:Array = [];
-
-		/**
-		 * @private
-		 */
-		private static const GLOW_ALPHA_COLORS:Array = [];
 
 		//--------------------------------------------------------------------------
 		//
@@ -73,14 +38,7 @@ package ru.flaswf.writer {
 
 		public function DisplayRasterizer() {
 			super();
-
-			var i:int = 0;
-			while (i++ < 255) {
-				GLOW_COLORS[i] = 0xFFFFFFFF;
-				GLOW_ALPHA_COLORS[i] = 0xFF000000;
-			}
 		}
-
 
 		//--------------------------------------------------------------------------
 		//

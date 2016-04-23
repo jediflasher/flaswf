@@ -1,12 +1,9 @@
 package ru.flaswf.parsers.feathers.view {
 	
-	import feathers.display.TiledImage;
-	
-	import ru.flaswf.parsers.feathers.ObjectBuilder;
+	import flash.geom.Rectangle;
+
 	import ru.flaswf.reader.descriptors.DisplayObjectDescriptor;
-	
-	import starling.textures.Texture;
-	
+
 	/**
 	 * @author              Roman
 	 * @version             1.0
@@ -14,7 +11,7 @@ package ru.flaswf.parsers.feathers.view {
 	 * @langversion         3.0
 	 * @date                03.04.2016 13:13
 	 */
-	public class ParserFeathersTiledImage extends TiledImage {
+	public class ParserFeathersTiledImage extends ParserFeathersImage {
 		
 		//--------------------------------------------------------------------------
 		//
@@ -23,8 +20,8 @@ package ru.flaswf.parsers.feathers.view {
 		//--------------------------------------------------------------------------
 		
 		public function ParserFeathersTiledImage(source:DisplayObjectDescriptor) {
-			var texture:Texture = ObjectBuilder.getTexture(ObjectBuilder.normalize(source.linkage.name));
-			super(texture);
+			super(source);
+			tileGrid = new Rectangle();
 		}
 	}
 }

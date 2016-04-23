@@ -71,7 +71,7 @@ package ru.flaswf.parsers.feathers.view {
 			embedFonts = true;
 			isHTML = true;
 			textFormat = fmt;
-			snapToPixels = true;
+			pixelSnapping = true;
 			useSnapshotDelayWorkaround = true;
 
 			super.wordWrap = source.multiline;
