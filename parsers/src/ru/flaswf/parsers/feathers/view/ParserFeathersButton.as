@@ -96,9 +96,9 @@ package ru.flaswf.parsers.feathers.view {
 		 * @private
 		 */
 		protected override function draw():void {
-			super.draw();
-
 			var stateInvalid:Boolean = super.isInvalid(FeathersControl.INVALIDATION_FLAG_STATE);
+			super.clearInvalidationFlag(FeathersControl.INVALIDATION_FLAG_STATE);
+			super.draw();
 
 			if (stateInvalid) {
 				this._skin.gotoAndStop(getStateBySkin(currentState));

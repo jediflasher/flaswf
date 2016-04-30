@@ -22,6 +22,8 @@ package ru.flaswf.parsers.feathers.view {
 	 */
 	public class ParserFeathersDisplayObjectContainer extends FeathersControl {
 
+		private static const P:String = '.';
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Constructor
@@ -67,23 +69,13 @@ package ru.flaswf.parsers.feathers.view {
 			_customFactory[flashChildName] = starlingClass;
 		}
 
-		public override function addChildAt(child:DisplayObject, index:int):DisplayObject {
-			_childrenHash[child.name] = child;
-			return super.addChildAt(child, index);
-		}
-
-		public override function removeChildAt(index:int, dispose:Boolean = false):DisplayObject {
-			var result:DisplayObject = super.removeChildAt(index, dispose);
-			if (result) delete _childrenHash[result.name];
-			return result;
-		}
-
 		public override function getChildByName(name:String):DisplayObject {
 			var result:DisplayObject = _childrenHash[name] as DisplayObject;
 			if (result) return result;
 
+			if (name.indexOf(P) == -1) return super.getChildByName(name);
+			
 			var path:Array = name.split('.');
-			if (path.length < 2) return super.getChildByName(name);
 
 			var firstElement:DisplayObjectContainer = getChildByName(path.shift()) as DisplayObjectContainer;
 			if (!firstElement) return null;

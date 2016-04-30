@@ -73,11 +73,7 @@ package ru.flaswf.parsers.feathers {
 					var td:TextFieldDescriptor = (descriptor as TextFieldDescriptor);
 					result = td.editable ? new textInputRenderer(td) : new textFieldRenderer(td);
 				} else if (isTexture(linkage)) {
-					if (descriptor.linkage.scale9Grid) {
-						result = new ParserFeathersScale9Image(descriptor);
-					} else {
-						result = new ParserFeathersImage(descriptor);
-					}
+					result = new ParserFeathersImage(descriptor);
 				} else if (isTiledImage(linkage)) {
 					result = new ParserFeathersTiledImage(descriptor);
 				} else if (isButton(linkage)) {

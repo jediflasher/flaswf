@@ -33,6 +33,7 @@ package ru.flaswf.parsers.feathers.view {
 
 		public function ParserFeathersTextField(source:TextFieldDescriptor) {
 			super();
+			super.styleProvider = null;
 
 			var fmt:TextFormat = source.textFormat;
 			var nativeFilters:Array;
@@ -72,7 +73,7 @@ package ru.flaswf.parsers.feathers.view {
 			isHTML = true;
 			textFormat = fmt;
 			pixelSnapping = true;
-			useSnapshotDelayWorkaround = true;
+//			useSnapshotDelayWorkaround = true;
 
 			super.wordWrap = source.multiline;
 			super.width = ObjectBuilder.t(source.width);
@@ -104,7 +105,7 @@ package ru.flaswf.parsers.feathers.view {
 			super.draw();
 
 			if (isInvalid()) {
-				setSizeInternal(textField.textWidth, textField.textHeight + ObjectBuilder.t(10), false);
+				setSizeInternal(textField.textWidth, textField.textHeight, true);
 			}
 		}
 	}

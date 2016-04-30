@@ -9,6 +9,7 @@ package ru.flaswf.parsers.feathers.view {
 	import flash.geom.Rectangle;
 	
 	import ru.flaswf.parsers.feathers.ObjectBuilder;
+	import ru.flaswf.parsers.feathers.view.ParserFeathersImage;
 	import ru.flaswf.reader.descriptors.AnimationDescriptor;
 	import ru.flaswf.reader.descriptors.DisplayObjectDescriptor;
 	import ru.flaswf.reader.descriptors.FrameDescriptor;
@@ -17,6 +18,7 @@ package ru.flaswf.parsers.feathers.view {
 	import starling.animation.IAnimatable;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
+	import starling.textures.TextureSmoothing;
 	
 	/**
 	 * @author                    Obi
@@ -296,7 +298,7 @@ package ru.flaswf.parsers.feathers.view {
 				mtx.ty = ObjectBuilder.t(mtx.ty);
 				starlingChild.transformationMatrix = mtx;
 				starlingChild.alpha = descriptorChild.alpha;
-				
+
 				if (starlingChild is ParserFeathersTextField || starlingChild is ParserFeathersTextInput) {
 					starlingChild.scaleX = 1;
 					starlingChild.scaleY = 1;
@@ -304,12 +306,15 @@ package ru.flaswf.parsers.feathers.view {
 					starlingChild.y = int(ObjectBuilder.t((descriptorChild as TextFieldDescriptor).y));
 					starlingChild.width = ObjectBuilder.t((descriptorChild as TextFieldDescriptor).width);
 					starlingChild.height = ObjectBuilder.t((descriptorChild as TextFieldDescriptor).height);
-				} else if (starlingChild is ParserFeathersScale9Image) {
-					starlingChild.scaleX = 1;
-					starlingChild.scaleY = 1;
-					var b:Rectangle = descriptorChild.getFrameBounds();
-					starlingChild.width = ObjectBuilder.t(b.width * descriptorChild.transform.a);
-					starlingChild.height = ObjectBuilder.t(b.height * descriptorChild.transform.d);
+				} else if (starlingChild is ParserFeathersImage) {
+					var img:ParserFeathersImage = starlingChild as ParserFeathersImage;
+					if (img.scale9Grid) {
+						starlingChild.scaleX = 1;
+						starlingChild.scaleY = 1;
+						var b:Rectangle = descriptorChild.getFrameBounds();
+						starlingChild.width = ObjectBuilder.t(b.width * descriptorChild.transform.a);
+						starlingChild.height = ObjectBuilder.t(b.height * descriptorChild.transform.d);
+					}
 				} else {
 					b = descriptorChild.getFrameBounds();
 					starlingChild.width = ObjectBuilder.t(b.width * descriptorChild.transform.a);
