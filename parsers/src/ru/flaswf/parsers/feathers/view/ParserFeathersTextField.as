@@ -105,7 +105,7 @@ package ru.flaswf.parsers.feathers.view {
 			super.draw();
 
 			if (isInvalid()) {
-				setSizeInternal(textField.textWidth, textField.textHeight, true);
+				setSizeInternal(textField.textWidth, textField.textHeight, false);
 			}
 		}
 	}

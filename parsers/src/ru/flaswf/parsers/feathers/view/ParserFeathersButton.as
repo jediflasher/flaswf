@@ -6,6 +6,7 @@
 package ru.flaswf.parsers.feathers.view {
 	
 	import feathers.controls.Button;
+	import feathers.controls.ButtonState;
 	import feathers.controls.ToggleButton;
 	import feathers.core.FeathersControl;
 
@@ -175,18 +176,19 @@ package ru.flaswf.parsers.feathers.view {
 		}
 
 		private function getStateBySkin(skin:String):String {
+			skin = skin.replace('AndSelected', '');
 			var result:String;
 			switch (skin) {
-				case Button.STATE_UP:
+				case ButtonState.UP:
 					result = 'up';
 					break;
-				case Button.STATE_DOWN:
+				case ButtonState.DOWN:
 					result = 'down';
 					break;
-				case Button.STATE_HOVER:
+				case ButtonState.HOVER:
 					result = 'over';
 					break;
-				case Button.STATE_DISABLED:
+				case ButtonState.DISABLED:
 					return 'disabled';
 			}
 
