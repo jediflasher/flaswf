@@ -226,7 +226,6 @@ package ru.flaswf.writer {
 			for (var j:int = 0; j < container.numChildren; j++) {
 				var child:DisplayObject = container.getChildAt(j);
 				if (!(child is MovieClip || child is TextField)) {
-					trace('child is ' + child[CONSTRUCTOR] + '. Skip');
 					continue;
 				}
 				var name:String = child.name;

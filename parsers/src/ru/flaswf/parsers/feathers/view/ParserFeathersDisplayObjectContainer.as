@@ -6,6 +6,7 @@
 package ru.flaswf.parsers.feathers.view {
 	
 	import feathers.core.FeathersControl;
+	import feathers.core.FeathersControl;
 
 	import flash.geom.Rectangle;
 
@@ -58,6 +59,25 @@ package ru.flaswf.parsers.feathers.view {
 		//--------------------------------------------------------------------------
 
 		public var source:DisplayObjectDescriptor;
+		
+		/**
+		 * @private
+		 */
+		private var _smoothing:Boolean;
+		
+		public function get smoothing():Boolean {
+			return _smoothing;
+		}
+		
+		public function set smoothing(value:Boolean):void {
+			if (_smoothing == value) return;
+			
+			_smoothing = value;
+		}
+		
+		protected function get isDataInvalid():Boolean {
+			return isInvalid(FeathersControl.INVALIDATION_FLAG_DATA);
+		}
 
 		//--------------------------------------------------------------------------
 		//

@@ -5,6 +5,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 package ru.flaswf.parsers.feathers.view {
 	
+	import feathers.core.IValidating;
+	
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	
@@ -18,6 +20,7 @@ package ru.flaswf.parsers.feathers.view {
 	import starling.animation.IAnimatable;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
+	import starling.events.Event;
 	import starling.textures.TextureSmoothing;
 	
 	/**
@@ -51,7 +54,7 @@ package ru.flaswf.parsers.feathers.view {
 		//
 		//--------------------------------------------------------------------------
 		
-		public function ParserFeathersMovieClip(source:DisplayObjectDescriptor) {
+		public function ParserFeathersMovieClip(source:DisplayObjectDescriptor = null) {
 			super(source);
 		}
 		
@@ -66,6 +69,9 @@ package ru.flaswf.parsers.feathers.view {
 		private var _updated:Boolean = false;
 		
 		private var _bounds:Rectangle = new Rectangle();
+		
+		private var _frameHandlers:Object = {};
+		'frame -> Vector.<Function>'
 		
 		//--------------------------------------------------------------------------
 		//
@@ -86,7 +92,7 @@ package ru.flaswf.parsers.feathers.view {
 		}
 		
 		public function get totalFrames():int {
-			return source.linkage.framesCount;
+			return source ? source.linkage.framesCount : 1;
 		}
 		
 		//--------------------------------------------------------------------------
@@ -96,10 +102,12 @@ package ru.flaswf.parsers.feathers.view {
 		//--------------------------------------------------------------------------
 		
 		public function play(animationName:String = 'def', repeatsCount:int = 0, onComplete:Function = null, onCompleteParams:Array = null, startFrame:int = 0):void {
-			if (!source.linkage.hasAnimation(animationName)) throw new Error('No animation ' + animationName);
-			if (this._playingAnimation && this._playingAnimation.proto.name == animationName) return;
+			if (!source) return;
 			
-			var animationProto:AnimationDescriptor = source.linkage.getAnimationByName(animationName);
+			if (!source.linkage.hasAnimation(animationName)) throw new Error('No animation ' + animationName);
+//			if (this._playingAnimation && this._playingAnimation.proto.name == animationName) return;
+			
+			var animationProto:AnimationDescriptor = getAnimation(animationName);
 			
 			var animation:Animation = new Animation();
 			animation.proto = animationProto;
@@ -123,6 +131,8 @@ package ru.flaswf.parsers.feathers.view {
 		}
 		
 		public function gotoAndStop(frame:Object):void {
+			if (!source) return;
+			
 			if (frame is int) {
 				if (_currentFrame == frame) return;
 				
@@ -134,11 +144,15 @@ package ru.flaswf.parsers.feathers.view {
 				invalidate(INVALIDATION_FLAG_FRAME);
 				validate();
 			} else {
-				var animation:AnimationDescriptor = source.linkage.getAnimationByName(frame as String);
+				var animation:AnimationDescriptor = getAnimation(frame as String);
 				if (!animation) return;
 				
 				this.gotoAndStop(animation.startFrame + 1);
 			}
+		}
+		
+		public function getAnimation(name:String):AnimationDescriptor {
+			return source.linkage.getAnimationByName(name);
 		}
 		
 		public function advanceTime(time:Number):void {
@@ -192,13 +206,32 @@ package ru.flaswf.parsers.feathers.view {
 		}
 		
 		public function hasAnimation(animation:String):Boolean {
-			return source.linkage.hasAnimation(animation);
+			return source ? source.linkage.hasAnimation(animation) : false;
 		}
 		
 		public function getFrameBounds():Rectangle {
+			if (!source) return getBounds(this);
+			
 			var frameBounds:Rectangle = source.linkage.frames[_currentFrame - 1].bounds;
 			_bounds.setTo(x + ObjectBuilder.t(frameBounds.x), y + ObjectBuilder.t(frameBounds.y), ObjectBuilder.t(frameBounds.width), ObjectBuilder.t(frameBounds.height));
 			return _bounds;
+		}
+		
+		public function addFrameHandler(frame:int, handler:Function):void {
+			var list:Vector.<Function> = _frameHandlers[frame] || new Vector.<Function>();
+			var index:int = list.indexOf(handler);
+			if (index >= 0) return;
+			
+			list.push(handler);
+			_frameHandlers[frame] = list;
+		}
+		
+		public function removeFrameHandler(frame:int, handler:Function):void {
+			var list:Vector.<Function> = _frameHandlers[frame];
+			if (!list) return;
+			
+			var index:int = list.indexOf(handler);
+			if (index >= 0) list.splice(index, 1);
 		}
 		
 		//--------------------------------------------------------------------------
@@ -238,6 +271,8 @@ package ru.flaswf.parsers.feathers.view {
 		 * @private
 		 */
 		protected function updateFrame():void {
+			if (!source) return;
+			
 			if (source.linkage.framesCount == 1 && _updated) return;
 			
 			var frames:Vector.<FrameDescriptor> = source.linkage.frames;
@@ -287,6 +322,12 @@ package ru.flaswf.parsers.feathers.view {
 					starlingChild = _childrenHash[name];
 				}
 				
+				if (starlingChild is ParserFeathersDisplayObjectContainer) {
+					(starlingChild as ParserFeathersDisplayObjectContainer).smoothing = smoothing;
+				} else if (starlingChild is ParserFeathersImage && smoothing) {
+					(starlingChild as ParserFeathersImage).textureSmoothing = TextureSmoothing.TRILINEAR;
+				}
+				
 				if (!starlingChild.parent || source.linkage.framesCount > 1) addChild(starlingChild);
 				
 				starlingChild.x = ObjectBuilder.t(descriptorChild.transform.tx);
@@ -298,7 +339,7 @@ package ru.flaswf.parsers.feathers.view {
 				mtx.ty = ObjectBuilder.t(mtx.ty);
 				starlingChild.transformationMatrix = mtx;
 				starlingChild.alpha = descriptorChild.alpha;
-
+				
 				if (starlingChild is ParserFeathersTextField || starlingChild is ParserFeathersTextInput) {
 					starlingChild.scaleX = 1;
 					starlingChild.scaleY = 1;
@@ -320,6 +361,8 @@ package ru.flaswf.parsers.feathers.view {
 					starlingChild.width = ObjectBuilder.t(b.width * descriptorChild.transform.a);
 					starlingChild.height = ObjectBuilder.t(b.height * descriptorChild.transform.d);
 				}
+				
+				if (starlingChild is IValidating) (starlingChild as IValidating).validate();
 			}
 			
 			var frameBounds:Rectangle = source.linkage.frames[_currentFrame - 1].bounds;
@@ -328,6 +371,24 @@ package ru.flaswf.parsers.feathers.view {
 			
 			clearInvalidationFlag(INVALIDATION_FLAG_FRAME);
 			_updated = true;
+			
+			var handlers:Vector.<Function> = _frameHandlers[_currentFrame];
+			for each (var h:Function in handlers) {
+				h.apply();
+			}
+		}
+		
+		
+		protected override function added():void {
+			super.added();
+			
+			if (this._playingAnimation) Starling.current.juggler.add(this);
+		}
+		
+		protected override function removed():void {
+			Starling.current.juggler.remove(this);
+			
+			super.removed();
 		}
 	}
 }

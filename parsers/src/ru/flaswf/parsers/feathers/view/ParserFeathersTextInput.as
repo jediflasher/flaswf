@@ -1,7 +1,9 @@
 package ru.flaswf.parsers.feathers.view {
 	
 	import feathers.controls.TextInput;
+	import feathers.controls.text.TextFieldTextEditor;
 	import feathers.controls.text.TextFieldTextRenderer;
+	import feathers.core.ITextEditor;
 	import feathers.core.ITextRenderer;
 	
 	import flash.text.TextFormat;
@@ -28,21 +30,34 @@ package ru.flaswf.parsers.feathers.view {
 			super();
 
 			var fmt:TextFormat = source.textFormat;
+			fmt.blockIndent = int(ObjectBuilder.t(fmt.blockIndent));
+			fmt.indent = int(ObjectBuilder.t(fmt.indent));
+			fmt.leading = int(ObjectBuilder.t(fmt.leading));
+			fmt.leftMargin = int(ObjectBuilder.t(fmt.leftMargin));
+			fmt.letterSpacing = int(ObjectBuilder.t(fmt.letterSpacing));
+			fmt.rightMargin = int(ObjectBuilder.t(fmt.rightMargin));
+			fmt.size = int(ObjectBuilder.t(fmt.size));
+			
 
 			var props:Object = {
-				fontSize: ObjectBuilder.t(Number(fmt.size)),
+				fontSize: fmt.size,
 				color: fmt.color,
-				fontFamily: '_sans'
+				fontFamily: fmt.font
 			};
 
 			this.promptFactory = function ():ITextRenderer {
 				var result:TextFieldTextRenderer = new TextFieldTextRenderer();
-				var fmt:TextFormat = new TextFormat(props.font, props.fontSize, props.color);
+				var fmt:TextFormat = fmt;
 				result.textFormat = fmt;
 				return result;
 			};
-
-			this.textEditorProperties = props;
+			
+			this.textEditorFactory = function():ITextEditor {
+				var result:TextFieldTextEditor = new TextFieldTextEditor();
+				result.textFormat = fmt;
+				result.embedFonts = true;
+				return result;
+			}
 		}
 
 		//--------------------------------------------------------------------------

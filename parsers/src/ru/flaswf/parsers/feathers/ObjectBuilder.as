@@ -14,6 +14,7 @@ package ru.flaswf.parsers.feathers {
 	import ru.flaswf.reader.descriptors.TextFieldDescriptor;
 	
 	import starling.display.DisplayObject;
+	import starling.display.Sprite;
 	import starling.textures.Texture;
 	
 	/**
@@ -57,6 +58,10 @@ package ru.flaswf.parsers.feathers {
 		}
 
 		public static function build(descriptor:DisplayObjectDescriptor, customFactory:Object = null):DisplayObject {
+			if (!descriptor) {
+				return new Sprite();
+			}
+			
 			var result:DisplayObject;
 			var linkage:String = descriptor.linkage ? descriptor.linkage.name : null;
 

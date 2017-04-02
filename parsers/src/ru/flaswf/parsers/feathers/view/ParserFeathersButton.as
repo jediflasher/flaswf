@@ -9,82 +9,86 @@ package ru.flaswf.parsers.feathers.view {
 	import feathers.controls.ButtonState;
 	import feathers.controls.ToggleButton;
 	import feathers.core.FeathersControl;
-
+	
 	import flash.geom.Rectangle;
-
+	
 	import ru.flaswf.parsers.feathers.ObjectBuilder;
 	import ru.flaswf.reader.descriptors.AnimationDescriptor;
 	import ru.flaswf.reader.descriptors.DisplayObjectDescriptor;
-
+	
 	import starling.display.DisplayObject;
-
+	
 	/**
 	 * @author                    Obi
 	 * @langversion                3.0
 	 * @date                    22.05.2015
 	 */
 	public class ParserFeathersButton extends ToggleButton {
-
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Constructor
 		//
 		//--------------------------------------------------------------------------
-
+		
 		public function ParserFeathersButton(source:DisplayObjectDescriptor) {
 			super();
 			isToggle = false;
 			_source = source;
-
+			
 			var frameBounds:Rectangle = source.linkage.frames[0].bounds;
 			pivotX = ObjectBuilder.t(-frameBounds.x);
 			pivotY = ObjectBuilder.t(-frameBounds.y);
-
+			
 			parse();
 		}
-
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Variables
 		//
 		//--------------------------------------------------------------------------
-
+		
 		private var _frameLabels:Object = {};
-
+		
 		private var _hitAreaRect:Rectangle;
-
+		
 		private var _source:DisplayObjectDescriptor;
-
+		
 		private var _skin:ParserFeathersMovieClip;
-
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Properties
 		//
 		//--------------------------------------------------------------------------
-
+		
 		/**
 		 * @private
 		 */
 		private var _overwrittenLabel:String;
-
+		
 		public override function set label(value:String):void {
 			if (this._overwrittenLabel != value) {
 				this._overwrittenLabel = value;
 				super.invalidate(FeathersControl.INVALIDATION_FLAG_DATA);
 			}
 		}
-
+		
 		public override function get label():String {
 			return this._overwrittenLabel;
 		}
-
+		
+		public function getChild(name:String):DisplayObject {
+			return _skin.getChildByName(name);
+		}
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Protected methods
 		//
 		//--------------------------------------------------------------------------
-
+		
 		/**
 		 * @private
 		 */
@@ -92,19 +96,18 @@ package ru.flaswf.parsers.feathers.view {
 			super.initialize();
 			super.useHandCursor = true;
 		}
-
+		
 		/**
 		 * @private
 		 */
 		protected override function draw():void {
 			var stateInvalid:Boolean = super.isInvalid(FeathersControl.INVALIDATION_FLAG_STATE);
-			super.clearInvalidationFlag(FeathersControl.INVALIDATION_FLAG_STATE);
 			super.draw();
-
+			
 			if (stateInvalid) {
 				this._skin.gotoAndStop(getStateBySkin(currentState));
 			}
-
+			
 			if (stateInvalid || super.isInvalid(FeathersControl.INVALIDATION_FLAG_SIZE)) {
 				var hitArea:DisplayObject = _skin.getChildByName('_hitArea');
 				if (hitArea) {
@@ -120,7 +123,7 @@ package ru.flaswf.parsers.feathers.view {
 					this.minTouchHeight = ObjectBuilder.t(this._hitAreaRect.height);
 				}
 			}
-
+			
 			if (stateInvalid || super.isInvalid(FeathersControl.INVALIDATION_FLAG_DATA)) {
 				var tf:ParserFeathersTextField = _skin.getTextField('label');
 				if (tf) {
@@ -129,7 +132,7 @@ package ru.flaswf.parsers.feathers.view {
 				}
 			}
 		}
-
+		
 		/**
 		 * @private
 		 */
@@ -141,7 +144,7 @@ package ru.flaswf.parsers.feathers.view {
 				super.refreshHitAreaX();
 			}
 		}
-
+		
 		/**
 		 * @private
 		 */
@@ -153,17 +156,17 @@ package ru.flaswf.parsers.feathers.view {
 				super.refreshHitAreaY();
 			}
 		}
-
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Private methods
 		//
 		//--------------------------------------------------------------------------
-
+		
 		private function parse():void {
 			var labels:Vector.<AnimationDescriptor> = _source.linkage.animations;
 			for each (var label:AnimationDescriptor in labels) this._frameLabels[label.name] = true;
-
+			
 			this._skin = new ParserFeathersMovieClip(_source) as ParserFeathersMovieClip;
 			if (_source.name) this._skin.name = _source.name;
 			this.defaultSkin = this._skin;
@@ -174,7 +177,7 @@ package ru.flaswf.parsers.feathers.view {
 			if (this._skin.hasAnimation('over_selected')) this.selectedHoverSkin = this._skin;
 			if (this._skin.hasAnimation('down_selected')) this.selectedDownSkin = this._skin;
 		}
-
+		
 		private function getStateBySkin(skin:String):String {
 			skin = skin.replace('AndSelected', '');
 			var result:String;
@@ -191,7 +194,7 @@ package ru.flaswf.parsers.feathers.view {
 				case ButtonState.DISABLED:
 					return 'disabled';
 			}
-
+			
 			if (isSelected) result += '_selected';
 			return result;
 		}

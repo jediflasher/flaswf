@@ -8,6 +8,7 @@ package ru.flaswf.parsers.feathers.view {
 	import feathers.controls.text.TextFieldTextRenderer;
 	
 	import flash.filters.BitmapFilter;
+	import flash.filters.DropShadowFilter;
 	import flash.filters.GlowFilter;
 	import flash.text.TextFormat;
 	import flash.utils.Dictionary;
@@ -37,25 +38,30 @@ package ru.flaswf.parsers.feathers.view {
 
 			var fmt:TextFormat = source.textFormat;
 			var nativeFilters:Array;
-
-			if (!(source in PROCESSED_TEXTFIELDS)) {
-				var configFilters:Vector.<BitmapFilterDescriptor> = source.filters;
-				if (configFilters) {
-
-					nativeFilters = [];
-
-					for each (var fd:BitmapFilterDescriptor in configFilters) {
-						var f:BitmapFilter = BitmapFilterDescriptor.toNative(fd);
-
-						if (f is GlowFilter) {
-							(f as GlowFilter).blurX = ObjectBuilder.t((f as GlowFilter).blurX);
-							(f as GlowFilter).blurY = ObjectBuilder.t((f as GlowFilter).blurY);
-						}
-
-						nativeFilters.push(f);
+			
+			var configFilters:Vector.<BitmapFilterDescriptor> = source.filters;
+			if (configFilters) {
+				
+				nativeFilters = [];
+				
+				for each (var fd:BitmapFilterDescriptor in configFilters) {
+					var f:BitmapFilter = BitmapFilterDescriptor.toNative(fd);
+					
+					if (f is GlowFilter) {
+						(f as GlowFilter).blurX = ObjectBuilder.t((f as GlowFilter).blurX);
+						(f as GlowFilter).blurY = ObjectBuilder.t((f as GlowFilter).blurY);
+					} else if (f is DropShadowFilter) {
+						var df:DropShadowFilter = (f as DropShadowFilter);
+						df.blurX = ObjectBuilder.t(df.blurX);
+						df.blurY = ObjectBuilder.t(df.blurY);
+						df.distance = ObjectBuilder.t(df.distance);
 					}
+					
+					nativeFilters.push(f);
 				}
-
+			}
+			
+			if (!(source in PROCESSED_TEXTFIELDS)) {
 				fmt.blockIndent = int(ObjectBuilder.t(fmt.blockIndent));
 				fmt.indent = int(ObjectBuilder.t(fmt.indent));
 				fmt.leading = int(ObjectBuilder.t(fmt.leading));
